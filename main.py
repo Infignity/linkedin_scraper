@@ -4,7 +4,10 @@ from requests import session
 
 from utils import format_company, format_profile, find_username
 
+
+scrape_mode = 'company' # 'person' or 'company'
 timeout = 10
+
 
 class Client():
     def __init__(self, cookies_filepath='cookies.json'):
@@ -70,18 +73,24 @@ def scrape_profiles(profiles, output_filepath, type_='person'):
     writer.writeheader()
     for i, p in enumerate(profiles):
         print(f'#{i+1}. Scraping: {p}')
-        text = client.get_profile(p)
+        if type_ == 'person':
+            text = client.get_profile(p)
+        else:
+            text = client.get_company(p)
 
         writer.writerow({'username': p, 'text': text})
-        time.sleep(timeout)
+        if i != len(profiles) - 1: time.sleep(timeout)
+        
 
     output_file.close()
     
 
 if __name__ == '__main__':
-    profiles = get_input_profiles(type_='person')
+    linkedin_type = scrape_mode
 
-    print(f'Found {len(profiles)} linkedin profiles.')
+    profiles = get_input_profiles(type_=linkedin_type)
+
+    print(f'Found {len(profiles)} linkedin company profiles.')
 
     if len(profiles) > 80:
         print('** ERROR: Cannot scrape more than 80 profiles at a time.')
