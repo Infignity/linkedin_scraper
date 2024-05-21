@@ -97,4 +97,4 @@ if __name__ == '__main__':
     elif len(profiles) == 0:
         print('** WARN: No linkedin profiles found.')
     else:
-        scrape_profiles(profiles, output_filepath='profiles_output.csv')
+        scrape_profiles(profiles, output_filepath='profiles_output.csv', type_=linkedin_type)
