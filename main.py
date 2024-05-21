@@ -65,7 +65,7 @@ def get_input_profiles(input_filepath='profiles.txt', type_='person'):
 
 def scrape_profiles(profiles, output_filepath, type_='person'):
     client = Client()
-    output_file = open(output_filepath, 'w+')
+    output_file = open(output_filepath, 'w+', encoding='utf-8')
     writer = csv.DictWriter(output_file, fieldnames=['username', 'text'])
     writer.writeheader()
     for i, p in enumerate(profiles):
@@ -74,6 +74,8 @@ def scrape_profiles(profiles, output_filepath, type_='person'):
 
         writer.writerow({'username': p, 'text': text})
         time.sleep(timeout)
+
+    output_file.close()
     
 
 if __name__ == '__main__':
